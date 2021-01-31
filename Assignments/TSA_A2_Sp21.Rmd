@@ -20,8 +20,7 @@ When you have completed the assignment, **Knit** the text and code into a single
 R packages needed for this assignment:"forecast","tseries", and "dplyr". Install these packages, if you haven't done yet. Do not forget to load them before running your script, since they are NOT default packages.\\
 
 ```{r}
-#Load/install required package here
-
+library(tseries)
 ```
 
 
