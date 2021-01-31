@@ -1,7 +1,7 @@
 ---
 title: "ENV 790.30 - Time Series Analysis for Energy Data | Spring 2021"
 subtitle: "Assignment 2 - Due date 01/27/21"
-author: "Student Name"
+author: "ZY"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -19,8 +19,15 @@ When you have completed the assignment, **Knit** the text and code into a single
 
 R packages needed for this assignment:"forecast","tseries", and "dplyr". Install these packages, if you haven't done yet. Do not forget to load them before running your script, since they are NOT default packages.\\
 
-```{r}
+```{r setup, include=FALSE}
 library(tseries)
+library(forecast)
+library(dplyr)
+library(readxl)
+rm(list=ls())
+setwd("/Users/yxyy/Documents/duke/ts/2021/tsa2021/Data")
+data <- read_excel("a2data.xlsx",skip=9)
+data<-data[-1,]
 ```
 
 
@@ -28,20 +35,34 @@ library(tseries)
 
 Consider the data provided in the spreadsheet "Table_10.1_Renewable_Energy_Production_and_Consumption_by_Source.xlsx" on our **Data** folder. The data comes from the US Energy Information and Administration and corresponds to the January 2021 Monthly Energy Review. The spreadsheet is ready to be used. Use the command $read.table()$ to import the data in R or $panda.read\_excel()$ in Python (note that you will need to import pandas package). }
 
-```{r}
-#Importing data set
-
-```
-
 
 ## Question 1
 You will work only with the following columns: Total Biomass Energy Production, Total Renewable Energy Production, Hydroelectric Power Consumption. Create a data frame structure with these three time series only. Use the command head() to verify your data.
 
+```{r,echo=false}
+data2=data[,4:6]
+head(data2)
+```
+
 ## Question 2
 Transform your data frame in a time series object and specify the starting point and frequency of the time series using the function ts().
-
+```{r}
+data2=ts(data2,start=1973,frequency=12)
+ndata=ncol(data2)
+```
 ## Question 3
-Compute mean and standard deviation for these three series.
+```{r}
+mu=array(0,ndata)
+sd=array(0,ndata)
+for (a in 1:ndata){
+  mu[a]=mean(data2[,a])
+  sd[a]=sd(data2[,a])
+}
+results=cbind(mu,sd)
+results
+```
+
+
 
 ## Question 4
 Display and interpret the time series plot for each of these variables. Try to make your plot as informative as possible by writing titles, labels, etc. For each plot add a horizontal line at the mean of each series in a different color.
